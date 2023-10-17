@@ -1,0 +1,33 @@
+@use "./typography";
+@use "./variables" as *;
+
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  &:focus-visible {
+    outline: solid 0.1rem $interactive-element-color;
+  }
+}
+
+body {
+  font-family: "Titillium Web", sans-serif;
+  color: $primary-text-color;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

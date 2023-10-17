@@ -1,8 +1,17 @@
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.scss";
+import NavBar from "./components/NavBar/Navbar";
+import { DashboardPage } from "./pages/DashboardPage/DashboardPage";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-center">Hello world!</h1>
+    <BrowserRouter>
+      <NavBar />
+
+      <Routes>
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

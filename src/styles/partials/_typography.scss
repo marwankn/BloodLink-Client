@@ -1,0 +1,84 @@
+@use "./media-queries" as *;
+@use "./variables" as *;
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,600&display=swap");
+
+html {
+  font-family: "Roboto Flex", sans-serif;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 2.8rem;
+  line-height: 3.6rem;
+
+  @include tablet {
+    font-size: 3.2rem;
+    line-height: 4rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.8rem;
+
+  @include tablet {
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+  }
+}
+
+h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 2rem;
+
+  @include tablet {
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+  }
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+
+  @include tablet {
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+  }
+}
+
+.p1 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 2.6rem;
+
+  @include tablet {
+    font-size: 1.6rem;
+    line-height: 2.8rem;
+  }
+}
+
+.p2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 2rem;
+
+  @include tablet {
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+  }
+}
+
+.p3 {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+  font-weight: 400;
+
+  @include tablet {
+    line-height: 1.8rem;
+    font-size: 1.2rem;
+  }
+}

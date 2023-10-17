@@ -1,0 +1,11 @@
+@use "./styles/partials/resets";
+@use "./styles/partials/typography";
+@use "./styles/partials/media-queries" as *;
+
+html {
+  background: rgba(245, 239, 237, 1);
+  @include tablet {
+    margin-left: 6rem;
+    max-width: 102rem;
+  }
+}

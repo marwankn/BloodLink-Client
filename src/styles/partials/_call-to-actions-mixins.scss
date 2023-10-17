@@ -1,0 +1,49 @@
+@use "./media-queries" as *;
+@use "./variables" as *;
+@use "./typography";
+
+@mixin cta-button($bg-color, $color, $border-clr, $width) {
+  font-family: inherit;
+  @extend h3;
+  background-color: $bg-color;
+  color: $color;
+  border: solid 0.1rem $border-clr;
+  width: $width;
+  height: 3.6rem;
+  padding: 0 1.6rem;
+  border-radius: 2rem;
+  cursor: pointer;
+
+  @if $border-clr == null {
+    border: none;
+  }
+
+  @include tablet {
+    height: 3.8rem;
+  }
+}
+
+@mixin cta-text-link() {
+  cursor: pointer;
+  text-decoration: none;
+
+  &::after {
+    background-image: url(../../assets/icons/chevron_right-24px.svg);
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    display: inline-block;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  @include tablet {
+    &:hover {
+      text-decoration: solid;
+
+      &::after {
+        margin-left: 0.8rem;
+      }
+    }
+  }
+}
