@@ -10,7 +10,7 @@ export default function SummaryCard() {
   return (
     <>
       <section className="summaryCard">
-        <img src={redLogo} alt="" srcset="" className="summaryCard__logo" />
+        <img src={redLogo} alt="" className="summaryCard__logo" />
         <div className="summaryCard__container">
           <h2 className="summaryCard__title">
             Hello, <span className="summaryCard__name">{name}</span>
