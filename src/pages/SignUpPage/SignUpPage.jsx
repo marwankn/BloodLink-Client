@@ -1,8 +1,8 @@
 import React from "react";
-import "./SignUpPage.scss";
+import SignUp from "../../components/SignUp/SignUp";
 
-const SignUpPage = () => {
-  return <div>SignUpPage</div>;
+const SignUpPage = ({ setToken }) => {
+  return <SignUp setToken={setToken} />;
 };
 
 export default SignUpPage;

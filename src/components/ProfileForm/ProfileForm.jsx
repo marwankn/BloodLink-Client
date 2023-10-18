@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Autocomplete from "react-google-autocomplete";
 import { formatToYYYYMMDD } from "../../utils/DateFormatter";
 import "./ProfileForm.scss";
+import { isValidDate } from "../../utils/isValidDate";
 
 function ProfileForm() {
   const mapsApi = import.meta.env.VITE_MAPS_API;
@@ -15,15 +16,7 @@ function ProfileForm() {
     last_donation: "2023-04-01",
     travel_radius_for_donation: 1000,
   };
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    address: "",
-    blood_type: "",
-    last_donation: "",
-    travel_radius_for_donation: "",
-  });
+  const [formData, setFormData] = useState(data);
 
   const [errors, setErrors] = useState({});
 
@@ -98,14 +91,6 @@ function ProfileForm() {
       // Axios Call HERE
       console.log("Form submitted:", formData);
     }
-  };
-
-  const isValidDate = (date) => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!datePattern.test(date)) return false;
-    const [year, month, day] = date.split("-").map(Number);
-    const maxDaysInMonth = new Date(year, month, 0).getDate();
-    return day >= 1 && day <= maxDaysInMonth;
   };
 
   return (

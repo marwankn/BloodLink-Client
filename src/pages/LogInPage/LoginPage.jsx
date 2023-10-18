@@ -1,8 +1,8 @@
 import React from "react";
-import "./LogInPage.scss";
+import Login from "../../components/LogIn/Login";
 
-const LoginPage = () => {
-  return <div>LoginPage</div>;
+const LoginPage = ({ setToken }) => {
+  return <Login setToken={setToken} />;
 };
 
 export default LoginPage;

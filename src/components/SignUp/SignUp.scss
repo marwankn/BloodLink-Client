@@ -1,0 +1,96 @@
+@use "../../styles/partials/resets";
+@use "../../styles/partials/typography";
+@use "../../styles/partials/media-queries" as *;
+@use "../../styles/partials/variables" as *;
+
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+  height: 120vh;
+
+  &__logo {
+    height: 4rem;
+    margin-bottom: 7rem;
+  }
+  &__title {
+    margin-bottom: 2rem;
+  }
+
+  &_step {
+    width: 50%;
+  }
+
+  &__form {
+    &-title {
+      margin-bottom: 2rem;
+    }
+    &-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+    &-label {
+      font-size: small;
+      color: black;
+      margin-bottom: 1rem;
+    }
+    &-input {
+      width: 100%;
+      padding: 1rem 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &__error {
+    color: red;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+
+    &-second {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+  }
+  &__button {
+    padding: 1rem 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    font-size: small;
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+    &-back {
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+      font-size: small;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
