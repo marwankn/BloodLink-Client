@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SignUp.scss";
 import Autocomplete from "react-google-autocomplete";
 import { formatToYYYYMMDD } from "../../utils/DateFormatter";
-import { signupUser } from "../../utils/apiUtils";
+import { addProfile, signupUser } from "../../utils/apiUtils";
 import { isValidDate } from "../../utils/isValidDate";
 import logo from "../../assets/group.png";
 import { Link } from "react-router-dom";
@@ -11,10 +11,11 @@ const SignUp = ({ setToken }) => {
   const mapsApi = import.meta.env.VITE_MAPS_API;
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
+  const [waitToken, setWaitToken] = useState();
   const [firstStepData, setFirstStepData] = useState({
-    email: "q@q.com",
-    password: "q",
-    confirmPassword: "q",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const [secondStepData, setSecondStepData] = useState({
@@ -62,7 +63,7 @@ const SignUp = ({ setToken }) => {
 
     setSecondStepData({
       ...secondStepData,
-      [name]: numericValue,
+      [name]: Number(numericValue),
     });
   };
 
@@ -86,13 +87,12 @@ const SignUp = ({ setToken }) => {
       delete firstStepData.confirmPassword;
 
       try {
-        // const response = await signupUser(firstStepData);
-        // localStorage.setItem("token", response.data.token);
-        // setToken(response.data.token);
-        console.log(firstStepData);
+        const response = await signupUser(firstStepData);
+        localStorage.setItem("token", response.data.token);
+
         setStep(2);
       } catch (error) {
-        alert(error);
+        alert(`${error.response.data.error}, Please Try Logging In!`);
       }
     } else {
       setErrors(step1Errors);
@@ -139,7 +139,13 @@ const SignUp = ({ setToken }) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Form submitted:", secondStepData);
+      
+      try {
+        const response = await addProfile(secondStepData);
+        setToken(localStorage.getItem("token"));
+      } catch (error) {
+        console.log(`${error.response.data.error}! Please try again`);
+      }
     }
   };
 
@@ -281,7 +287,6 @@ const SignUp = ({ setToken }) => {
                     };
                   });
                 }
-                console.log(secondStepData);
               }}
             />
             {errors.address && (
@@ -322,8 +327,8 @@ const SignUp = ({ setToken }) => {
               name="sex"
             >
               <option value="">Select Sex</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
+              <option value="m">Male</option>
+              <option value="f">Female</option>
             </select>
             {errors.sex && <span className="signup__error">{errors.sex}</span>}
           </div>
@@ -335,15 +340,19 @@ const SignUp = ({ setToken }) => {
               Travel Radius for Donation:
             </label>
             <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
+              type="range"
               id="travel_radius_for_donation"
               name="travel_radius_for_donation"
+              min="2"
+              max="100"
+              step="2"
               value={secondStepData.travel_radius_for_donation}
               onInput={handleNumericInput}
               className="signup__form-input"
             />
+            <span className="profile-form__input-slider">
+              {secondStepData.travel_radius_for_donation || "Adjust"} km
+            </span>
             {errors.travel_radius_for_donation && (
               <p className="signup__error">
                 {errors.travel_radius_for_donation}

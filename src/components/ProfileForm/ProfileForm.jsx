@@ -3,32 +3,15 @@ import Autocomplete from "react-google-autocomplete";
 import { formatToYYYYMMDD } from "../../utils/DateFormatter";
 import "./ProfileForm.scss";
 import { isValidDate } from "../../utils/isValidDate";
+import { editProfile } from "../../utils/apiUtils";
+import { Navigate, useNavigate } from "react-router-dom";
 
-function ProfileForm() {
+function ProfileForm({ userProfile, setUpdate, update }) {
   const mapsApi = import.meta.env.VITE_MAPS_API;
-  const data = {
-    id: 2,
-    first_name: "Laila",
-    last_name: "Omar",
-    phone_number: 1234567890,
-    address: "100 Forest Ave Hamilton, ON L8N3X2",
-    blood_type: "A+",
-    last_donation: "2023-04-01",
-    travel_radius_for_donation: 1000,
-  };
-  const [formData, setFormData] = useState(data);
-
+  const [formData, setFormData] = useState(userProfile);
+  console.log(formData);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    // fetch("/api/userProfile")
-    // .then((response) => response.json())
-    // .then((data) => {
-    setFormData(data); // Assuming the API response matches the form data structure
-    // })
-    // .catch((error) => console.error("Error fetching user profile data: ", error));
-  }, []);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -46,7 +29,7 @@ function ProfileForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -88,8 +71,16 @@ function ProfileForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Axios Call HERE
-      console.log("Form submitted:", formData);
+      try {
+        delete formData.daysLeft;
+        delete formData.created_at;
+        delete formData.updated_at;
+        const response = await editProfile(formData);
+        setUpdate(!update);
+        navigate("/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -184,14 +175,22 @@ function ProfileForm() {
           <label htmlFor="blood_type" className="profile-form__label">
             Blood Type:
           </label>
-          <input
-            type="text"
-            id="blood_type"
-            name="blood_type"
+          <select
             value={formData.blood_type}
             onChange={handleChange}
+            name="blood_type"
             className="profile-form__input"
-          />
+          >
+            <option value="">Select Blood Type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
           {errors.blood_type && (
             <p className="profile-form__error">{errors.blood_type}</p>
           )}
@@ -222,13 +221,19 @@ function ProfileForm() {
             Travel Radius for Donation:
           </label>
           <input
-            type="text"
+            type="range"
             id="travel_radius_for_donation"
             name="travel_radius_for_donation"
+            min="2"
+            max="100"
+            step="2"
             value={formData.travel_radius_for_donation}
             onChange={handleChange}
             className="profile-form__input"
           />
+          <span className="profile-form__input-slider">
+            {formData.travel_radius_for_donation} km
+          </span>
           {errors.travel_radius_for_donation && (
             <p className="profile-form__error">
               {errors.travel_radius_for_donation}

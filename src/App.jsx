@@ -1,53 +1,37 @@
-// import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-// import "./App.scss";
-// import NavBar from "./components/NavBar/Navbar";
-// import { DashboardPage } from "./pages/DashboardPage/DashboardPage";
-// import RequestsPage from "./pages/RequestsPage/RequestsPage";
-// import ProfilePage from "./pages/ProfilePage/ProfilePage";
-// // import SignUpPage from "./components/SignUpPage/SignUpPage";
-// // import LoginPage from "./pages/LogInPage/LoginPage";
-// import { useState } from "react";
-// import Login from "./components/LogInPage/Login";
-// function App() {
-//   const [token, setToken] = useState();
-//   const currentPath = window.location.pathname;
-//   const pathsToHideNavBar = ["/login", "/signup"];
-//   const hideNavBar = pathsToHideNavBar.includes(currentPath);
-
-//   if (!token) {
-//     return <Login setToken={setToken} />;
-//   }
-
-//   return (
-//     <BrowserRouter>
-//       {hideNavBar ? null : <NavBar />}
-
-//       <Routes>
-//         <Route path="/" element={<Navigate to={"/dashboard"} />} />
-//         {/* <Route path="/signup" element={<SignUpPage />} /> */}
-//         {/* <Route path="/login" element={<LoginPage />} /> */}
-//         <Route path="/dashboard" element={<DashboardPage />} />
-//         <Route path="/requests" element={<RequestsPage />} />
-//         <Route path="/profile" element={<ProfilePage />} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.scss";
 import NavBar from "./components/NavBar/Navbar";
 import { DashboardPage } from "./pages/DashboardPage/DashboardPage";
 import RequestsPage from "./pages/RequestsPage/RequestsPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginPage from "./pages/LogInPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import { getProfile } from "./utils/apiUtils";
+import { eligibilityCalc } from "./utils/eligibilityCalc";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token") || "d");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [userProfile, setUserProfile] = useState(null);
+  const [update, setUpdate] = useState(true);
+  useEffect(() => {
+    if (token) {
+      getProfile()
+        .then((profileData) => {
+          const data = profileData.data;
+          const daysLeft = eligibilityCalc(data.last_donation, data.sex);
+          data.daysLeft = daysLeft;
+          setUserProfile(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+        });
+    }
+  }, [token, update]);
+
+  if (token && !userProfile) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -60,12 +44,36 @@ function App() {
             token ? <Navigate to={"/dashboard"} /> : <Navigate to="/login" />
           }
         />
-        <Route path="/login" element={<LoginPage setToken={setToken} />} />
-        <Route path="/signup" element={<SignUpPage setToken={setToken} />} />
+        <Route
+          path="/login"
+          element={
+            token && userProfile ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <LoginPage setToken={setToken} />
+            )
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            token ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <SignUpPage setToken={setToken} />
+            )
+          }
+        />
 
         <Route
           path="/dashboard"
-          element={token ? <DashboardPage /> : <Navigate to="/login" />}
+          element={
+            userProfile ? (
+              <DashboardPage userProfile={userProfile} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/requests"
@@ -73,7 +81,17 @@ function App() {
         />
         <Route
           path="/profile"
-          element={token ? <ProfilePage /> : <Navigate to="/login" />}
+          element={
+            token ? (
+              <ProfilePage
+                userProfile={userProfile}
+                setUpdate={setUpdate}
+                update={update}
+              />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
       </Routes>
     </BrowserRouter>

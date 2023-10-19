@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import "./CreateRequestForm.scss";
 import Autocomplete from "react-google-autocomplete";
 import { Navigate, useNavigate } from "react-router-dom";
+import { postRequest } from "../../utils/apiUtils";
 
 function YourFormComponent({ toggleNewRequest }) {
   const mapsApi = import.meta.env.VITE_MAPS_API;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    patientName: "",
-    bloodType: "",
-    numDonors: "",
+    patient_name: "",
+    blood_type_needed: "",
+    number_of_donors_needed: "",
     address: "",
   });
 
@@ -23,7 +24,7 @@ function YourFormComponent({ toggleNewRequest }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -31,8 +32,8 @@ function YourFormComponent({ toggleNewRequest }) {
       newErrors.patientName = "Only letters and spaces are allowed";
     }
 
-    if (formData.bloodType.trim() === "") {
-      newErrors.bloodType = "Blood Type is required";
+    if (formData.blood_type.trim() === "") {
+      newErrors.blood_type = "Blood Type is required";
     }
 
     const numDonors = parseInt(formData.numDonors);
@@ -43,7 +44,19 @@ function YourFormComponent({ toggleNewRequest }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigate("/dashboard");
+      try {
+        const response = await postRequest(formData);
+        if (response.status === 201) {
+          // Request was successful, navigate to the dashboard
+          navigate("/dashboard");
+        } else {
+          // Handle other response statuses if needed
+          console.log("Request was not successful:", response);
+        }
+      } catch (error) {
+        // Handle any network or server errors
+        console.error("Error when posting the request:", error);
+      }
     }
   };
 
@@ -72,30 +85,39 @@ function YourFormComponent({ toggleNewRequest }) {
             <input
               type="text"
               id="patientName"
-              name="patientName"
-              value={formData.patientName}
+              name="patient_name"
+              value={formData.patient_name}
               onChange={handleChange}
               className="createRequests__input"
               placeholder="Enter patient name"
             />
-            {errors.patientName && (
-              <p className="error-message">{errors.patientName}</p>
+            {errors.patient_name && (
+              <p className="error-message">{errors.patient_name}</p>
             )}
           </div>
 
           <div className="createRequests__container-details">
-            <label htmlFor="bloodType">Blood Type Needed:</label>
-            <input
-              type="text"
-              id="bloodType"
-              name="bloodType"
-              value={formData.bloodType}
+            <label htmlFor="blood_type">Blood Type Needed:</label>
+            <select
+              value={formData.blood_type_needed}
               onChange={handleChange}
+              id="blood_type"
+              name="blood_type_needed"
               className="createRequests__input"
-              placeholder="e.g., AB+"
-            />
-            {errors.bloodType && (
-              <p className="error-message">{errors.bloodType}</p>
+            >
+              <option value="">Select Blood Type</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+
+            {errors.blood_type_needed && (
+              <p className="error-message">{errors.blood_type_needed}</p>
             )}
           </div>
 
@@ -104,14 +126,14 @@ function YourFormComponent({ toggleNewRequest }) {
             <input
               type="number"
               id="numDonors"
-              name="numDonors"
-              value={formData.numDonors}
+              name="number_of_donors_needed"
+              value={formData.number_of_donors_needed}
               onChange={handleChange}
               className="createRequests__input"
               placeholder="Enter the number of donors needed"
             />
-            {errors.numDonors && (
-              <p className="error-message">{errors.numDonors}</p>
+            {errors.number_of_donors_needed && (
+              <p className="error-message">{errors.number_of_donors_needed}</p>
             )}
           </div>
 
