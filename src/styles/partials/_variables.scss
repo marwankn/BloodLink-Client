@@ -1,0 +1,76 @@
+// Media Queries
+
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1280px;
+
+// // Colors
+
+// Primary Colors //
+$color-red: #660000;
+$color-black: #000000;
+$color-white: #f5efed;
+$color-slate: #6e7e85;
+
+// NavBar Components Color
+
+$navbar-text-color: $color-slate;
+
+// Primary Text Color
+
+$primary-text-color: $color-black;
+
+// Interactive Element
+
+$interactive-element-color: $color-red;
+
+// Global White Color
+
+$global-white: $color-white;
+
+// Secondary Colors //
+
+$secondary-color-slate: #5c667e;
+$secondary-color-cloud: #bdc5d5;
+
+// Table column headers
+// &
+// placeholder text
+
+$table-coloumn-headers-color: $secondary-color-slate;
+$placeholder-text-color: $secondary-color-slate;
+
+// Outlines,
+// dividers,
+// borders,
+// table sorting icon
+
+$outlines-color: $secondary-color-cloud;
+$dividers-color: $secondary-color-cloud;
+$borders-color: $secondary-color-cloud;
+$table-sorting-icon-color: $secondary-color-cloud;
+
+//  Background Colors  //
+$background-color-graphite: #232940;
+$background-color-light-grey: #f7f8f9;
+
+// Top navigation header background,
+// CTA button hover state background
+
+$top-nav-header-background-color: $background-color-graphite;
+$cta-btn-hover-background-color: $background-color-graphite;
+
+// Page background,
+// table column header background,
+// CTA background
+
+$page-background-color: $background-color-light-grey;
+$table-coloumn-header-background-color: $background-color-light-grey;
+$cta-background-color: $background-color-light-grey;
+
+// Supporting Colors
+$supporting-color-green: #158463;
+$supporting-color-red: #c94515;
+
+// Suporting Colors Alpha
+$supporting-color-g-alpha: rgba(21, 132, 99, 0.07);
+$supporting-color-r-alpha: rgba(201, 69, 21, 0.07);

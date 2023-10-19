@@ -1,0 +1,47 @@
+@use "./media-queries" as *;
+@use "./variables" as *;
+@use "./typography";
+
+@mixin input-field($desktop-width) {
+  font-family: inherit;
+  background-color: $global-white;
+  color: $primary-text-color;
+  border-radius: 2rem;
+  border: 1px solid $borders-color;
+  width: 100%;
+  height: 3.6rem;
+  padding: 0 1.6rem;
+  margin: 0.4rem 0;
+  cursor: pointer;
+
+  &::placeholder {
+    color: $placeholder-text-color;
+  }
+
+  @include tablet {
+    height: 3.8rem;
+    width: $desktop-width;
+  }
+}
+
+@mixin dropdown-field($desktop-width) {
+  font-family: inherit;
+  background-color: $global-white;
+  color: $primary-text-color;
+  border-radius: 2rem;
+  border: 1px solid $borders-color;
+  width: 100%;
+  height: 3.6rem;
+  padding: 0 1.6rem;
+  margin: 0.4rem 0;
+  cursor: pointer;
+
+  &::placeholder {
+    color: $placeholder-text-color;
+  }
+
+  @include tablet {
+    height: 3.8rem;
+    width: $desktop-width;
+  }
+}
