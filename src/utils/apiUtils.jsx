@@ -79,6 +79,41 @@ const editProfile = async (profile) => {
   return axios.put(`${API_URL}/profile`, profile, config);
 };
 
+const getCount = async (requestId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return axios.get(`${API_URL}/requests/${requestId}`, config);
+};
+
+const userResponded = async (requestId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return axios.post(
+    `${API_URL}/donations/${requestId}`,
+    { buttonClicked: "respond" },
+    config
+  );
+};
+
+const userDonated = async (requestId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return axios.post(
+    `${API_URL}/donations/${requestId}`,
+    { buttonClicked: "confirm" },
+    config
+  );
+};
+
 export {
   loginUser,
   signupUser,
@@ -89,4 +124,7 @@ export {
   countDonations,
   postRequest,
   editProfile,
+  getCount,
+  userResponded,
+  userDonated,
 };
