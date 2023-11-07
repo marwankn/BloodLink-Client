@@ -42,8 +42,8 @@ function ProfileForm({ userProfile, setUpdate, update }) {
       newErrors.last_name = "Only letters and spaces are allowed";
     }
 
-    if (!/^\d+$/.test(formData.phone_number)) {
-      newErrors.phone_number = "Phone number should contain only numbers";
+    if (!/^[0-9]{10}$/.test(formData.phone_number)) {
+      newErrors.phone_number = "Phone number should contain only 10 numbers";
     }
 
     if (formData.address.trim() === "") {
