@@ -14,6 +14,9 @@ Families and friends of the patients usually end up donating blood (if they are 
 
 <h2>How to run the app</h2>
 
+<h3><a href="https://6538814df11e663e686c94dd--sensational-rabanadas-f2d047.netlify.app/">Try Live Version</a></h3>
+
+<h3>Run Locally</h3>
 <ul>
   <li>Create .env file (checkout .env.example for specifics)</li>
   <li>Run server url: <a href="https://github.com/marwankn/BloodLink-Server">BloodLink Server</a></li>
