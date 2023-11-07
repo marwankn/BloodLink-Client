@@ -28,20 +28,23 @@ function YourFormComponent({ toggleNewRequest }) {
     e.preventDefault();
     const newErrors = {};
 
-    if (!/^[a-zA-Z\s]+$/.test(formData.patientName.trim())) {
-      newErrors.patientName = "Only letters and spaces are allowed";
+    if (!/^[a-zA-Z\s]+$/.test(formData.patient_name.trim())) {
+      newErrors.patient_name = "Only letters and spaces are allowed";
     }
 
-    if (formData.blood_type.trim() === "") {
-      newErrors.blood_type = "Blood Type is required";
+    if (formData.blood_type_needed.trim() === "") {
+      newErrors.blood_type_needed = "Blood Type is required";
     }
 
-    const numDonors = parseInt(formData.numDonors);
+    console.log("hi");
+    const numDonors = parseInt(formData.number_of_donors_needed);
     if (isNaN(numDonors) || numDonors < 0 || numDonors > 10) {
-      newErrors.numDonors = "Please enter a number between 0 and 10";
+      newErrors.number_of_donors_needed =
+        "Please enter a number between 0 and 10";
     }
 
     setErrors(newErrors);
+    console.log(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       try {
@@ -78,7 +81,7 @@ function YourFormComponent({ toggleNewRequest }) {
 
   return (
     <div className="createRequests">
-      <form onSubmit={handleSubmit} onKeyPress={handleFormKeyPress}>
+      <form onSubmit={handleSubmit}>
         <div className="createRequests__container">
           <div className="createRequests__container-details">
             <label htmlFor="patientName">Patient Name:</label>

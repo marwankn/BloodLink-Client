@@ -5,6 +5,7 @@ import "./ProfileForm.scss";
 import { isValidDate } from "../../utils/isValidDate";
 import { editProfile } from "../../utils/apiUtils";
 import { Navigate, useNavigate } from "react-router-dom";
+import todayDate from "../../utils/todayDate";
 
 function ProfileForm({ userProfile, setUpdate, update }) {
   const mapsApi = import.meta.env.VITE_MAPS_API;
@@ -41,8 +42,8 @@ function ProfileForm({ userProfile, setUpdate, update }) {
       newErrors.last_name = "Only letters and spaces are allowed";
     }
 
-    if (!/^\d+$/.test(formData.phone_number)) {
-      newErrors.phone_number = "Phone number should contain only numbers";
+    if (!/^[0-9]{10}$/.test(formData.phone_number)) {
+      newErrors.phone_number = "Phone number should contain only 10 numbers";
     }
 
     if (formData.address.trim() === "") {
@@ -179,7 +180,7 @@ function ProfileForm({ userProfile, setUpdate, update }) {
             value={formData.blood_type}
             onChange={handleChange}
             name="blood_type"
-            className="profile-form__input"
+            className="profile-form__input-dropdown"
           >
             <option value="">Select Blood Type</option>
             <option value="A+">A+</option>
@@ -201,12 +202,13 @@ function ProfileForm({ userProfile, setUpdate, update }) {
             Last Donation (yyyy-mm-dd):
           </label>
           <input
-            type="text"
+            type="date"
             id="last_donation"
             name="last_donation"
             value={formData.last_donation}
             onChange={handleChange}
-            className="profile-form__input"
+            className="profile-form__input-date"
+            max={todayDate()}
           />
           {errors.last_donation && (
             <p className="profile-form__error">{errors.last_donation}</p>

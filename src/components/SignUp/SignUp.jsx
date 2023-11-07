@@ -109,8 +109,8 @@ const SignUp = ({ setToken }) => {
       newErrors.last_name = "Only letters and spaces are allowed";
     }
 
-    if (!/^\d+$/.test(secondStepData.phone_number)) {
-      newErrors.phone_number = "Phone number should contain only numbers";
+    if (!/^[0-9]{10}$/.test(secondStepData.phone_number)) {
+      newErrors.phone_number = "Phone number should contain only 10 numbers";
     }
 
     if (secondStepData.address.trim() === "") {
@@ -139,7 +139,6 @@ const SignUp = ({ setToken }) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      
       try {
         const response = await addProfile(secondStepData);
         setToken(localStorage.getItem("token"));
