@@ -14,7 +14,7 @@ Families and friends of the patients usually end up donating blood (if they are 
 
 <h2>How to run the app</h2>
 
-<h3><a href="https://6549ab04af733b0008fa3683--sensational-rabanadas-f2d047.netlify.app/">Try Live Version</a></h3>
+<h3><a href="https://bloodlink.marwannofal.com/">Try Live Version</a></h3>
 
 <h3>Run Locally</h3>
 <ul>
